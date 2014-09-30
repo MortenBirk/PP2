@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".OldAPIActivity"
+            android:label="@string/title_activity_old_api" >
+        </activity>
+        <activity
+            android:name=".NewAPIActivity"
+            android:label="@string/title_activity_new_api" >
+        </activity>
     </application>
 
 </manifest>
