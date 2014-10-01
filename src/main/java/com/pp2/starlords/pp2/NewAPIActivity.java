@@ -1,8 +1,12 @@
 package com.pp2.starlords.pp2;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import 	android.widget.Toast;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
@@ -31,7 +35,11 @@ public class NewAPIActivity extends Activity implements
         setContentView(R.layout.activity_new_api);
         mLocationClient = new LocationClient(this, this, this);
         createLocationRequest();
-
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.container, new NewAPIViewFragment())
+                    .commit();
+        }
     }
 
     private void createLocationRequest() {
@@ -43,6 +51,8 @@ public class NewAPIActivity extends Activity implements
         mLocationRequest.setInterval(UPDATE_INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
     }
+
+
 
     /*
      * Called when the Activity becomes visible.
@@ -92,5 +102,36 @@ public class NewAPIActivity extends Activity implements
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public void useLowBattery(View view) {
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
+        Toast.makeText(this, "Low Battery enabled",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    public void useMediumBattery(View view) {
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        Toast.makeText(this, "Medium Battery enabled",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    public void useHighAccuracy(View view) {
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        Toast.makeText(this, "High Accuracy enabled",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    public static class NewAPIViewFragment extends Fragment {
+
+        public NewAPIViewFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_new_api, container, false);
+            return rootView;
+        }
     }
 }

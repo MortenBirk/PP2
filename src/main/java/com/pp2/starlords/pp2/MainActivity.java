@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new MainViewFragment())
                     .commit();
         }
     }
@@ -40,9 +40,9 @@ public class MainActivity extends Activity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class MainViewFragment extends Fragment {
 
-        public PlaceholderFragment() {
+        public MainViewFragment() {
         }
 
         @Override
