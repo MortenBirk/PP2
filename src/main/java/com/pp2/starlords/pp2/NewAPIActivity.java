@@ -29,6 +29,8 @@ public class NewAPIActivity extends Activity implements
     // Define an object that holds accuracy and frequency parameters
     LocationRequest mLocationRequest;
 
+    private FileLogger logger;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,7 @@ public class NewAPIActivity extends Activity implements
                     .add(R.id.container, new NewAPIViewFragment())
                     .commit();
         }
+        logger = new FileLogger('readings.log');
     }
 
     private void createLocationRequest() {
