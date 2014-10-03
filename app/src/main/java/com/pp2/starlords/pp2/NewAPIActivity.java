@@ -17,6 +17,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -37,6 +38,8 @@ public class NewAPIActivity extends Activity implements
 
     private GoogleMap googleMap;
 
+    private Marker currentMarker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +59,6 @@ public class NewAPIActivity extends Activity implements
                         findFragmentById(R.id.map)).getMap();
             }
             googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-            LatLng thePoint = new LatLng(21 , 57);
-            Marker TP = googleMap.addMarker(new MarkerOptions().
-                    position(thePoint).title("A point on the map"));
-
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(thePoint, 5.0f));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,6 +124,18 @@ public class NewAPIActivity extends Activity implements
         String msg = "Updated Location: " +
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
+
+        LatLng currentP = new LatLng(location.getLatitude(), location.getLongitude());
+
+        if (currentMarker == null) // to only animate on first location update
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentP, 20.0f));
+
+        currentMarker = googleMap.addMarker(new MarkerOptions().
+                position(currentP).icon(BitmapDescriptorFactory.fromAsset("ic_red")));
+
+
+
+
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
