@@ -13,5 +13,8 @@
     <string name="highAcc_button">Accurracy</string>
     <string name="oldAPI_button">Use Old API</string>
     <string name="newAPI_button">Use New API</string>
-
+    <string name="btn_GPS_off">Turn GPS location ON</string>
+    <string name="btn_GPS_on">Turn GPS location OFF</string>
+    <string name="btn_Network_off">Turn Network location ON</string>
+    <string name="btn_Network_on">Turn Network location OFF</string>
 </resources>
