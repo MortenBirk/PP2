@@ -130,9 +130,9 @@ public class NewAPIActivity extends Activity implements
         if (currentMarker == null) // to only animate on first location update
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentP, 20.0f));
 
-        currentMarker = googleMap.addMarker(new MarkerOptions().
-                position(currentP).icon(BitmapDescriptorFactory.fromAsset("ic_red")));
 
+        currentMarker = googleMap.addMarker(new MarkerOptions().
+                position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red)));
 
 
 
