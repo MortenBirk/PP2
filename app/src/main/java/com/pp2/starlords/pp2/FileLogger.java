@@ -1,13 +1,19 @@
 package com.pp2.starlords.pp2;
 
 
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.File;
+import android.content.Context;
+
 public class FileLogger{
 
   private File file;
   private FileWriter fileWriter;
 
 
-  public FileLogger(String fileName) {
+  public FileLogger(String fileName, Context context) {
     try {
       file = new File(context.getFilesDir(), fileName);
       fileWriter = new FileWriter(file);
@@ -18,8 +24,12 @@ public class FileLogger{
   }
 
   public void write(String s) {
-    fileWriter.write(s + "\n");
-    fileWriter.flush();
+      try {
+          fileWriter.write(s + "\n");
+          fileWriter.flush();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
   }
 
 }

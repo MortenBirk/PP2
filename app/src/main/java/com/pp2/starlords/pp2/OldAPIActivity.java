@@ -55,7 +55,7 @@ public class OldAPIActivity extends Activity implements LocationListener, View.O
         }
         btnGPS.setOnClickListener(this);
         btnNetwork.setOnClickListener(this);
-        logger = new FileLogger('readingsOldAPI.log');
+        logger = new FileLogger("readingsOldAPI.log", getApplicationContext());
 
     }
 

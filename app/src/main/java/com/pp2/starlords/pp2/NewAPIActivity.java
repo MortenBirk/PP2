@@ -53,7 +53,7 @@ public class NewAPIActivity extends Activity implements
                     .add(R.id.container, new NewAPIViewFragment())
                     .commit();
         }
-        logger = new FileLogger('readingsNewAPI.log');
+        logger = new FileLogger("readingsNewAPI.log", getApplicationContext());
 
         try {
             if (googleMap == null) {
