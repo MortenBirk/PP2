@@ -37,5 +37,4 @@ public class CDFHelper{
     return Math.sqrt( (x.getLattitude()- y.getLattitude())*(x.getLattitude()- y.getLattitude()) +
                       (x.getLongitude()- y.getLongitude())*(x.getLongitude()- y.getLongitude()));
   }
-
 }
