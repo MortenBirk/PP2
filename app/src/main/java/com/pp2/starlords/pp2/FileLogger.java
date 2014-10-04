@@ -33,7 +33,7 @@ public class FileLogger{
   }
 
   /**
-  * File is a new line seperated list of double 
+  * File is a new line seperated list of single double values 
   */
   public List<Position> parseFile(String fileName) {
     List<Position> res = new ArrayList<Position>();

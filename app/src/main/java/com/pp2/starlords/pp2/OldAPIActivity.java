@@ -147,6 +147,10 @@ public class OldAPIActivity extends Activity implements LocationListener, View.O
         network_longitude = (int) (location.getLongitude());
         GPS_latituteField.setText(String.valueOf(network_latitude));
         GPS_longitudeField.setText(String.valueOf(network_longitude));
+
+        logger.write(    
+                network_latitude + "," +
+                network_longitude);
     }
 
     @Override
