@@ -19,14 +19,24 @@
         android:textSize="40sp" />
 
     <LinearLayout
-        android:id="@+id/cdfview_graph"
+        android:id="@+id/cdfnewview_graph"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
         android:layout_below="@+id/cdfview_title"
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
         android:orientation="vertical" />
+  
+      <LinearLayout
+        android:id="@+id/cdfoldview_graph"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:layout_below="@+id/cdfnewview_graph"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical" />
     
+      
     
     
 </RelativeLayout>
