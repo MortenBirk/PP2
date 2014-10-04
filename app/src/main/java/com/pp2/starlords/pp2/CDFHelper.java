@@ -18,6 +18,18 @@ public class CDFHelper{
     return e;
   } 
 
+
+  public PP2ReadingData[] graphData(List<Position> readings, List<Position> truths) {
+    List<Double> e =sortedErrors(readings, truths);
+    PP2ReadingData[] res = new PP2ReadingData[e.size()];
+
+    for(int i = 0; i< e.size(); i++) {
+      res[i] = new PP2ReadingData(e.get(i), i);
+    }
+
+    return res;
+  }
+
   private List<Double> errors(List<Position> readings, List<Position> truths)  {
       List<Double> res = new ArrayList<Double>();
     for(int i = 0; i < readings.size(); i++) {

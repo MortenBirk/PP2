@@ -138,7 +138,9 @@ public class NewAPIActivity extends Activity implements
 
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
-        logger.write(    
+
+
+        logger.write( 
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude()));
     }
