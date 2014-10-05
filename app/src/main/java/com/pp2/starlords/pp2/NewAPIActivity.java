@@ -38,9 +38,7 @@ public class NewAPIActivity extends Activity implements
 
     private FileLogger logger;
 
-    private GoogleMap googleMap;
 
-    private Marker currentMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +53,17 @@ public class NewAPIActivity extends Activity implements
         }
         logger = new FileLogger("readingsNewAPI.log", getApplicationContext());
 
+        initMap();
+
+    }
+
+
+    /** GOOGLE MAPS ****************************************************/
+    private GoogleMap googleMap;
+    private Marker currentMarker;
+
+
+    public void initMap() {
         try {
             if (googleMap == null) {
                 googleMap = ((MapFragment) getFragmentManager().
@@ -66,6 +75,22 @@ public class NewAPIActivity extends Activity implements
             e.printStackTrace();
         }
     }
+
+    public void drawOnMap(Location location) {
+        LatLng currentP = new LatLng(location.getLatitude(), location.getLongitude());
+
+
+        if (currentMarker == null) // to only animate on first location update
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentP, 20.0f));
+
+
+        currentMarker = googleMap.addMarker(new MarkerOptions().
+                position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red)));
+
+    }
+
+
+    /** GOOGLE MAPS ****************************************************/
 
     private void createLocationRequest() {
         // Create the LocationRequest object
@@ -127,14 +152,9 @@ public class NewAPIActivity extends Activity implements
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
 
-        LatLng currentP = new LatLng(location.getLatitude(), location.getLongitude());
 
-        if (currentMarker == null) // to only animate on first location update
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentP, 20.0f));
+        drawOnMap(location);
 
-
-        currentMarker = googleMap.addMarker(new MarkerOptions().
-                position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red)));
 
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
