@@ -143,6 +143,8 @@ public class NewAPIActivity extends Activity implements
         logger.write( 
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude()));
+
+        logger.parseFile();
     }
 
     public void useLowBattery(View view) {

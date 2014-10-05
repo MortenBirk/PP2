@@ -26,12 +26,25 @@ public class FileLogger{
     }
 
     public void write(String s) {
+
+        FileOutputStream outputStream;
+
+        s += "\n";
+
         try {
+            outputStream = context.openFileOutput(file.getName(), Context.MODE_PRIVATE);
+            outputStream.write(s.getBytes());
+            outputStream.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*try {
             fileWriter.write(s + "\n");
             fileWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**
@@ -41,20 +54,33 @@ public class FileLogger{
         List<Position> res = new ArrayList<Position>();
 
         try {
-            FileReader fileReader = new FileReader(file);
+            //FileReader fileReader = new FileReader(file);
+            //BufferedReader br = new BufferedReader(fileReader);
 
-            BufferedReader br = new BufferedReader(fileReader);
-            String line = null;
+            FileInputStream fin = context.openFileInput(file.getName());
 
-            double total = 0;
-            int num = 0;
-            while((line = br.readLine()) != null) {
-                String pos[] = line.split(",");
-                Double lat = Double.parseDouble(pos[0]);
-                Double lng = Double.parseDouble(pos[1]);
-
-                res.add(new Position(lat,lng)); // TODO : bug in position parsing
+            int c;
+            String temp="";
+            while( (c = fin.read()) != -1){
+                temp = temp + Character.toString((char)c);
             }
+            //string temp contains all the data of the file.
+            fin.close();
+
+            List<String> posStrings = Arrays.asList(temp.split("\n"));
+            System.out.println(temp);
+
+            //String line = null;
+
+//            double total = 0;
+//            int num = 0;
+//            while((line = br.readLine()) != null) {
+//                String pos[] = line.split(",");
+//                Double lat = Double.parseDouble(pos[0]);
+//                Double lng = Double.parseDouble(pos[1]);
+//
+//                res.add(new Position(lat,lng)); // TODO : bug in position parsing
+//            }
         } catch(IOException e) {
             e.printStackTrace();
         }

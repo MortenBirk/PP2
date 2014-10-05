@@ -46,8 +46,8 @@
             android:value="AIzaSyAMaufz48-slT0pP6G_iGpIfqVyxNdSXeY" />
 
         <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_map" >
+            android:name=".CdfActivity"
+            android:label="@string/title_activity_cdf" >
         </activity>
         <activity
             android:name=".OldAPIActivity"

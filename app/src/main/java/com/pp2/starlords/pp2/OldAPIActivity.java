@@ -36,6 +36,9 @@ public class OldAPIActivity extends Activity implements LocationListener, View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_old_api);
+
+        logger = new FileLogger("readingsOldAPI.log", getApplicationContext());
+
         GPS_latituteField = (TextView) findViewById(R.id.txt_GPS_latitude);
         GPS_longitudeField = (TextView) findViewById(R.id.txt_GPS_longitude);
         Network_latituteField = (TextView) findViewById(R.id.txt_Network_latitude);
@@ -55,7 +58,6 @@ public class OldAPIActivity extends Activity implements LocationListener, View.O
         }
         btnGPS.setOnClickListener(this);
         btnNetwork.setOnClickListener(this);
-        logger = new FileLogger("readingsOldAPI.log", getApplicationContext());
 
     }
 

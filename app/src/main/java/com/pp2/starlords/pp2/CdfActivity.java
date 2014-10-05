@@ -32,7 +32,9 @@ public class CdfActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cdf_activity);
-        
+
+        context = getApplicationContext();
+
         renderOldGraph();
         renderNewGraph();
         
@@ -50,6 +52,8 @@ public class CdfActivity extends Activity {
         // TODO: replace empty array with ground truths
         FileLogger newLogger = new FileLogger("readingsNewAPI.log", getApplicationContext());
         PP2ReadingData[] values = CDFHelper.graphData(newLogger.parseFile(), new ArrayList<Position>() );
+
+        System.out.println(newLogger.parseFile());
 
         GraphViewSeriesStyle style = new GraphViewSeriesStyle(
                 Color.parseColor("#FF8800"), 1);
