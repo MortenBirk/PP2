@@ -35,12 +35,12 @@ public class CdfActivity extends Activity {
 
         context = getApplicationContext();
 
-        renderOldGraph();
-        renderNewGraph();
+        renderOldGraph("readingsOldAPI.log");
+        renderNewGraph("readingsNewAPI.log");
         
     }
 
-    private void renderNewGraph() {
+    private void renderNewGraph(String fileName) {
 
         /**
             NEW API
@@ -50,10 +50,9 @@ public class CdfActivity extends Activity {
         //TimeEventData[] values = TimeEventsDataStore.getListAsTimeEventData();
 
         // TODO: replace empty array with ground truths
-        FileLogger newLogger = new FileLogger("readingsNewAPI.log", getApplicationContext());
-        PP2ReadingData[] values = CDFHelper.graphData(newLogger.parseFile(), new ArrayList<Position>() );
+        PP2ReadingData[] values = CDFHelper.graphData(FileLogger.parseFile(fileName, getApplicationContext()), new ArrayList<Position>() );
 
-        System.out.println(newLogger.parseFile());
+        System.out.println(FileLogger.parseFile(fileName, getApplicationContext()));
 
         GraphViewSeriesStyle style = new GraphViewSeriesStyle(
                 Color.parseColor("#FF8800"), 1);
@@ -104,7 +103,7 @@ public class CdfActivity extends Activity {
     }
 
 
-    private void renderOldGraph() {
+    private void renderOldGraph(String fileName) {
         /**
             OLD API
         **/
@@ -113,8 +112,7 @@ public class CdfActivity extends Activity {
         //TimeEventData[] values = TimeEventsDataStore.getListAsTimeEventData();
 
         // TODO: replace empty array with ground truths
-        FileLogger oldLogger = new FileLogger("readingsOldAPI.log", getApplicationContext());
-        PP2ReadingData[] values = CDFHelper.graphData(oldLogger.parseFile(), new ArrayList<Position>() );
+        PP2ReadingData[] values = CDFHelper.graphData(FileLogger.parseFile(fileName, getApplicationContext()), new ArrayList<Position>() );
 
         GraphViewSeriesStyle style = new GraphViewSeriesStyle(
                 Color.parseColor("#FF8800"), 1);

@@ -1,30 +1,19 @@
 package com.pp2.starlords.pp2;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.location.Location;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-
-public class OldAPIActivity extends Activity implements View.OnClickListener, LocationListener {
+public class OldAPIActivity extends Activity implements LocationListener, View.OnClickListener {
 
     private TextView GPS_latituteField;
     private TextView GPS_longitudeField;
@@ -35,90 +24,40 @@ public class OldAPIActivity extends Activity implements View.OnClickListener, Lo
     private double GPS_longitude = 0;
     private double network_latitude = 0;
     private double network_longitude = 0;
-
     private LocationListener GPSListener;
     private LocationListener NetworkListener;
-
     private Button btnGPS;
     private Button btnNetwork;
     private static int TIME_INTERVAL = 5000;
     private static int SPACE_INTERVAL = 1;
-    private FileLogger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FileLogger.initFile(getApplicationContext(), "readingsOldAPI.log");
         setContentView(R.layout.activity_old_api);
 
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new OldAPIViewFragment())
-                    .commit();
-        }
-
-        logger = new FileLogger("readingsOldAPI.log", getApplicationContext());
-
-        /*GPS_latituteField = (TextView) findViewById(R.id.txt_GPS_latitude);
+        GPS_latituteField = (TextView) findViewById(R.id.txt_GPS_latitude);
         GPS_longitudeField = (TextView) findViewById(R.id.txt_GPS_longitude);
         Network_latituteField = (TextView) findViewById(R.id.txt_Network_latitude);
         Network_longitudeField = (TextView) findViewById(R.id.txt_Network_longitude);
         btnGPS = (Button) this.findViewById(R.id.btn_GPS);
-        btnNetwork = (Button) this.findViewById(R.id.btn_network);*/
-
-        initMap();
-
+        btnNetwork = (Button) this.findViewById(R.id.btn_network);
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.GPS_PROVIDER;
         Location location = locationManager.getLastKnownLocation(provider);
         if (location != null) {
             System.out.println("Provider " + provider + " has been selected.");
-            //onLocationChanged(location);
+            onLocationChanged(location);
         } else {
-            /*GPS_latituteField.setText("Location not available");
-            GPS_longitudeField.setText("Location not available");*/
+            GPS_latituteField.setText("Location not available");
+            GPS_longitudeField.setText("Location not available");
         }
-        //btnGPS.setOnClickListener(this);
-        //btnNetwork.setOnClickListener(this);
-
-
+        btnGPS.setOnClickListener(this);
+        btnNetwork.setOnClickListener(this);
 
     }
-
-
-    /** GOOGLE MAPS ****************************************************/
-    private GoogleMap googleMap;
-    private Marker currentMarker;
-
-
-    public void initMap() {
-        try {
-            if (googleMap == null) {
-                googleMap = ((MapFragment) getFragmentManager().
-                        findFragmentById(R.id.map)).getMap();
-            }
-            googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void drawOnMap(Location location, int drawable) {
-        LatLng currentP = new LatLng(location.getLatitude(), location.getLongitude());
-
-
-        if (currentMarker == null) // to only animate on first location update
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentP, 20.0f));
-
-
-        currentMarker = googleMap.addMarker(new MarkerOptions().
-                position(currentP).icon(BitmapDescriptorFactory.fromResource(drawable)));
-
-    }
-
-
-    /** GOOGLE MAPS ****************************************************/
 
     private void redrawLocations(){
         GPS_latituteField.setText(String.valueOf(GPS_latitude));
@@ -126,9 +65,6 @@ public class OldAPIActivity extends Activity implements View.OnClickListener, Lo
         Network_latituteField.setText(String.valueOf(network_latitude));
         Network_longitudeField.setText(String.valueOf(network_longitude));
     }
-
-
-
 
     public void onClick(View v) {
         if (v!= null && v.getId() == R.id.btn_GPS) {
@@ -138,11 +74,9 @@ public class OldAPIActivity extends Activity implements View.OnClickListener, Lo
                 GPSListener = new LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-                        /*OldAPIActivity.this.GPS_latitude = location.getLatitude();
+                        OldAPIActivity.this.GPS_latitude = location.getLatitude();
                         OldAPIActivity.this.GPS_longitude = location.getLongitude();
-                        OldAPIActivity.this.redrawLocations();*/
-
-                        drawOnMap(location, R.drawable.ic_blue); // red for GPS
+                        OldAPIActivity.this.redrawLocations();
                     }
 
                     @Override
@@ -178,9 +112,6 @@ public class OldAPIActivity extends Activity implements View.OnClickListener, Lo
                         OldAPIActivity.this.network_latitude = location.getLatitude();
                         OldAPIActivity.this.network_longitude = location.getLongitude();
                         OldAPIActivity.this.redrawLocations();
-
-                        drawOnMap(location, R.drawable.ic_blue); // blue for Wifi
-
                     }
 
                     @Override
@@ -214,14 +145,12 @@ public class OldAPIActivity extends Activity implements View.OnClickListener, Lo
 
         network_latitude = (int) (location.getLatitude());
         network_longitude = (int) (location.getLongitude());
-        //GPS_latituteField.setText(String.valueOf(network_latitude));
-        //GPS_longitudeField.setText(String.valueOf(network_longitude));
+        GPS_latituteField.setText(String.valueOf(network_latitude));
+        GPS_longitudeField.setText(String.valueOf(network_longitude));
 
-        logger.write(
+        FileLogger.write(
                 network_latitude + "," +
-                        network_longitude);
-
-        drawOnMap(location, R.drawable.ic_red); // red for GPS
+                network_longitude, "readingsOldAPI.log", getApplicationContext());
     }
 
     @Override
@@ -241,19 +170,5 @@ public class OldAPIActivity extends Activity implements View.OnClickListener, Lo
     public void onProviderDisabled(String provider) {
         Toast.makeText(this, "Disabled provider " + provider,
                 Toast.LENGTH_SHORT).show();
-    }
-
-
-    public static class OldAPIViewFragment extends Fragment {
-
-        public OldAPIViewFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_old_api, container, false);
-            return rootView;
-        }
     }
 }

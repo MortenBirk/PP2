@@ -9,55 +9,40 @@ import android.content.Context;
 
 public class FileLogger{
 
-    private File file;
-    private FileWriter fileWriter;
-    private Context context;
-
-
-    public FileLogger(String fileName, Context context) {
+    public static void initFile(Context context, String fileName) {
         try {
-            this.context = context;
-            file = new File(context.getFilesDir(), fileName);
-            fileWriter = new FileWriter(file);
-
-        } catch(IOException e) {
+            FileOutputStream outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream.write("".getBytes());
+            outputStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void write(String s) {
+    public static void write(String s, String fileName, Context context) {
 
         FileOutputStream outputStream;
 
         s += "\n";
 
         try {
-            outputStream = context.openFileOutput(file.getName(), Context.MODE_PRIVATE);
+            outputStream = context.openFileOutput(fileName, Context.MODE_APPEND);
             outputStream.write(s.getBytes());
-            outputStream.flush();
+            outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        /*try {
-            fileWriter.write(s + "\n");
-            fileWriter.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     /**
      * File is a new line seperated list of single double values
      */
-    public List<Position> parseFile() {
+    public static List<Position> parseFile(String fileName, Context context) {
         List<Position> res = new ArrayList<Position>();
 
         try {
-            //FileReader fileReader = new FileReader(file);
-            //BufferedReader br = new BufferedReader(fileReader);
 
-            FileInputStream fin = context.openFileInput(file.getName());
+            FileInputStream fin = context.openFileInput(fileName);
 
             int c;
             String temp="";

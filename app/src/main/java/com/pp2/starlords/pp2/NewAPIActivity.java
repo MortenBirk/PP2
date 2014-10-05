@@ -36,13 +36,14 @@ public class NewAPIActivity extends Activity implements
     // Define an object that holds accuracy and frequency parameters
     LocationRequest mLocationRequest;
 
-    private FileLogger logger;
+    private GoogleMap googleMap;
 
-
+    private Marker currentMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FileLogger.initFile(getApplicationContext(), "readingsNewAPI.log");
         setContentView(R.layout.activity_new_api);
         mLocationClient = new LocationClient(this, this, this);
         createLocationRequest();
@@ -51,19 +52,7 @@ public class NewAPIActivity extends Activity implements
                     .add(R.id.container, new NewAPIViewFragment())
                     .commit();
         }
-        logger = new FileLogger("readingsNewAPI.log", getApplicationContext());
 
-        initMap();
-
-    }
-
-
-    /** GOOGLE MAPS ****************************************************/
-    private GoogleMap googleMap;
-    private Marker currentMarker;
-
-
-    public void initMap() {
         try {
             if (googleMap == null) {
                 googleMap = ((MapFragment) getFragmentManager().
@@ -75,22 +64,6 @@ public class NewAPIActivity extends Activity implements
             e.printStackTrace();
         }
     }
-
-    public void drawOnMap(Location location) {
-        LatLng currentP = new LatLng(location.getLatitude(), location.getLongitude());
-
-
-        if (currentMarker == null) // to only animate on first location update
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentP, 20.0f));
-
-
-        currentMarker = googleMap.addMarker(new MarkerOptions().
-                position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red)));
-
-    }
-
-
-    /** GOOGLE MAPS ****************************************************/
 
     private void createLocationRequest() {
         // Create the LocationRequest object
@@ -152,37 +125,49 @@ public class NewAPIActivity extends Activity implements
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
 
+        LatLng currentP = new LatLng(location.getLatitude(), location.getLongitude());
 
-        drawOnMap(location);
+        if (currentMarker == null) // to only animate on first location update
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentP, 20.0f));
 
+
+        currentMarker = googleMap.addMarker(new MarkerOptions().
+                position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red)));
 
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
 
 
-        logger.write( 
+        FileLogger.write(
                 Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude()));
+                Double.toString(location.getLongitude()), "readingsNewAPI.log", getApplicationContext());
 
-        logger.parseFile();
+        FileLogger.parseFile("readingsNewAPI.log", getApplicationContext());
     }
 
     public void useLowBattery(View view) {
+        mLocationClient.disconnect();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
         Toast.makeText(this, "Low Battery enabled",
                 Toast.LENGTH_SHORT).show();
+        mLocationClient.connect();
+
     }
 
     public void useMediumBattery(View view) {
+        mLocationClient.disconnect();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         Toast.makeText(this, "Medium Battery enabled",
                 Toast.LENGTH_SHORT).show();
+        mLocationClient.connect();
     }
 
     public void useHighAccuracy(View view) {
+        mLocationClient.disconnect();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         Toast.makeText(this, "High Accuracy enabled",
                 Toast.LENGTH_SHORT).show();
+        mLocationClient.connect();
     }
 
     public static class NewAPIViewFragment extends Fragment {
