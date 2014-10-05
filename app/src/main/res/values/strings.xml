@@ -17,4 +17,5 @@
     <string name="btn_GPS_on">Turn GPS location OFF</string>
     <string name="btn_Network_off">Turn Network location ON</string>
     <string name="btn_Network_on">Turn Network location OFF</string>
+    <string name="cdf_button">Watch CDF</string>
 </resources>

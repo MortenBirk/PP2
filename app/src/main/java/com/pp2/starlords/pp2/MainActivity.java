@@ -41,6 +41,11 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    public void runCDFActivity(View view) {
+        Intent intent = new Intent(this, CdfActivity.class);
+        startActivity(intent);
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
