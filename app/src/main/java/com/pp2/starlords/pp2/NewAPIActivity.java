@@ -36,8 +36,6 @@ public class NewAPIActivity extends Activity implements
     // Define an object that holds accuracy and frequency parameters
     LocationRequest mLocationRequest;
 
-    private FileLogger logger;
-
     private GoogleMap googleMap;
 
     private Marker currentMarker;
@@ -45,6 +43,7 @@ public class NewAPIActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FileLogger.initFile(getApplicationContext(), "readingsNewAPI.log");
         setContentView(R.layout.activity_new_api);
         mLocationClient = new LocationClient(this, this, this);
         createLocationRequest();
@@ -53,7 +52,6 @@ public class NewAPIActivity extends Activity implements
                     .add(R.id.container, new NewAPIViewFragment())
                     .commit();
         }
-        logger = new FileLogger("readingsNewAPI.log", getApplicationContext());
 
         try {
             if (googleMap == null) {
@@ -140,29 +138,36 @@ public class NewAPIActivity extends Activity implements
 
 
 
-        logger.write( 
+        FileLogger.write(
                 Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude()));
+                Double.toString(location.getLongitude()), "readingsNewAPI.log", getApplicationContext());
 
-        logger.parseFile();
+        FileLogger.parseFile("readingsNewAPI.log", getApplicationContext());
     }
 
     public void useLowBattery(View view) {
+        mLocationClient.disconnect();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
         Toast.makeText(this, "Low Battery enabled",
                 Toast.LENGTH_SHORT).show();
+        mLocationClient.connect();
+
     }
 
     public void useMediumBattery(View view) {
+        mLocationClient.disconnect();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         Toast.makeText(this, "Medium Battery enabled",
                 Toast.LENGTH_SHORT).show();
+        mLocationClient.connect();
     }
 
     public void useHighAccuracy(View view) {
+        mLocationClient.disconnect();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         Toast.makeText(this, "High Accuracy enabled",
                 Toast.LENGTH_SHORT).show();
+        mLocationClient.connect();
     }
 
     public static class NewAPIViewFragment extends Fragment {

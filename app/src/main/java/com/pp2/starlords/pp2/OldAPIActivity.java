@@ -30,14 +30,12 @@ public class OldAPIActivity extends Activity implements LocationListener, View.O
     private Button btnNetwork;
     private static int TIME_INTERVAL = 5000;
     private static int SPACE_INTERVAL = 1;
-    private FileLogger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FileLogger.initFile(getApplicationContext(), "readingsOldAPI.log");
         setContentView(R.layout.activity_old_api);
-
-        logger = new FileLogger("readingsOldAPI.log", getApplicationContext());
 
         GPS_latituteField = (TextView) findViewById(R.id.txt_GPS_latitude);
         GPS_longitudeField = (TextView) findViewById(R.id.txt_GPS_longitude);
@@ -150,9 +148,9 @@ public class OldAPIActivity extends Activity implements LocationListener, View.O
         GPS_latituteField.setText(String.valueOf(network_latitude));
         GPS_longitudeField.setText(String.valueOf(network_longitude));
 
-        logger.write(    
+        FileLogger.write(
                 network_latitude + "," +
-                network_longitude);
+                network_longitude, "readingsOldAPI.log", getApplicationContext());
     }
 
     @Override
