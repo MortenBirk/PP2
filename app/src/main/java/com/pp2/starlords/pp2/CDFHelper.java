@@ -7,19 +7,19 @@ import java.util.List;
 /**
 * This class takes two lists of positions (readings and groundtruths) and computes a sorted list of the errors
 */
-public class CDFHelper{
+public class CDFHelper {
 
   /**
   * Assumes readings and truths are same length
   */
-  public List<Double> sortedErrors(List<Position> readings, List<Position> truths) {
+  public static List<Double> sortedErrors(List<Position> readings, List<Position> truths) {
     List<Double> e = errors(readings, truths);
     Collections.sort(e);
     return e;
   } 
 
 
-  public PP2ReadingData[] graphData(List<Position> readings, List<Position> truths) {
+  public static PP2ReadingData[] graphData(List<Position> readings, List<Position> truths) {
     List<Double> e =sortedErrors(readings, truths);
     PP2ReadingData[] res = new PP2ReadingData[e.size()];
 
@@ -30,7 +30,7 @@ public class CDFHelper{
     return res;
   }
 
-  private List<Double> errors(List<Position> readings, List<Position> truths)  {
+  private static List<Double> errors(List<Position> readings, List<Position> truths)  {
       List<Double> res = new ArrayList<Double>();
     for(int i = 0; i < readings.size(); i++) {
       Position r = readings.get(i);
@@ -45,7 +45,7 @@ public class CDFHelper{
   /*
   * Euclidian distance of positons 
   */
-  private double distance(Position x, Position y) {
+  private static double distance(Position x, Position y) {
     return Math.sqrt( (x.getLattitude()- y.getLattitude())*(x.getLattitude()- y.getLattitude()) +
                       (x.getLongitude()- y.getLongitude())*(x.getLongitude()- y.getLongitude()));
   }

@@ -2,7 +2,9 @@ package com.pp2.starlords.pp2;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,21 +19,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import java.util.ArrayList;
 
 public class CdfActivity extends Activity {
 
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cdf);
+        setContentView(R.layout.cdf_activity);
         
         renderOldGraph();
         renderNewGraph();
         
     }
 
-    private void renderOldGraph() {
+    private void renderNewGraph() {
 
         /**
             NEW API
@@ -41,7 +48,8 @@ public class CdfActivity extends Activity {
         //TimeEventData[] values = TimeEventsDataStore.getListAsTimeEventData();
 
         // TODO: replace empty array with ground truths
-        PP2ReadingData[] values = CDFHelper.graphData(FileLogger.parseFile("readingsNewAPI.log"), new ArrayList<Position>() );
+        FileLogger newLogger = new FileLogger("readingsNewAPI.log", getApplicationContext());
+        PP2ReadingData[] values = CDFHelper.graphData(newLogger.parseFile(), new ArrayList<Position>() );
 
         GraphViewSeriesStyle style = new GraphViewSeriesStyle(
                 Color.parseColor("#FF8800"), 1);
@@ -101,7 +109,8 @@ public class CdfActivity extends Activity {
         //TimeEventData[] values = TimeEventsDataStore.getListAsTimeEventData();
 
         // TODO: replace empty array with ground truths
-        PP2ReadingData[] values = CDFHelper.graphData(FileLogger.parseFile("readingsOldAPI.log"), new ArrayList<Position>() );
+        FileLogger oldLogger = new FileLogger("readingsOldAPI.log", getApplicationContext());
+        PP2ReadingData[] values = CDFHelper.graphData(oldLogger.parseFile(), new ArrayList<Position>() );
 
         GraphViewSeriesStyle style = new GraphViewSeriesStyle(
                 Color.parseColor("#FF8800"), 1);
