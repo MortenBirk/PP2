@@ -84,7 +84,7 @@ public class NewAPIActivity extends Activity implements
             LatLng currentP = new LatLng(p.getLattitude(), p.getLongitude());
 
             googleMap.addMarker(new MarkerOptions().
-                    position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_blue)));
+                    position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_blue)).anchor(0.5f,0.5f));
         }
     }
 
@@ -146,7 +146,7 @@ public class NewAPIActivity extends Activity implements
 
 
         currentMarker = googleMap.addMarker(new MarkerOptions().
-                position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red)));
+                position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red)).anchor(0.5f,0.5f));
 
 
 
