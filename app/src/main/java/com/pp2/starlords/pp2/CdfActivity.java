@@ -49,8 +49,7 @@ public class CdfActivity extends Activity {
 
         //TimeEventData[] values = TimeEventsDataStore.getListAsTimeEventData();
 
-        // TODO: replace empty array with ground truths
-        PP2ReadingData[] values = CDFHelper.graphData(FileLogger.parseFile(fileName, getApplicationContext()), new ArrayList<Position>() );
+        PP2ReadingData[] values = CDFHelper.graphData(FileLogger.parseFile(fileName, getApplicationContext()), FileLogger.getGroundTruth() );
 
         System.out.println(FileLogger.parseFile(fileName, getApplicationContext()));
 
@@ -111,8 +110,7 @@ public class CdfActivity extends Activity {
 
         //TimeEventData[] values = TimeEventsDataStore.getListAsTimeEventData();
 
-        // TODO: replace empty array with ground truths
-        PP2ReadingData[] values = CDFHelper.graphData(FileLogger.parseFile(fileName, getApplicationContext()), new ArrayList<Position>() );
+        PP2ReadingData[] values = CDFHelper.graphData(FileLogger.parseFile(fileName, getApplicationContext()), FileLogger.getGroundTruth() );
 
         GraphViewSeriesStyle style = new GraphViewSeriesStyle(
                 Color.parseColor("#FF8800"), 1);

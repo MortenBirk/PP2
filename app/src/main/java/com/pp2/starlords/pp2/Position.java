@@ -13,6 +13,11 @@ public class Position {
         lattitude = latti;
     }
 
+    public Position(double latti, double longi, boolean reversed) {
+        longitude = longi;
+        lattitude = latti;
+    }
+
     public void setLongitude(double d) {
         longitude = d;
     }

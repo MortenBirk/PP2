@@ -53,7 +53,19 @@ public class OldAPIActivity extends Activity implements LocationListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        for(Position p : FileLogger.getGroundTruth()) {
+            LatLng currentP = new LatLng(p.getLattitude(), p.getLongitude());
+
+            if (currentMarker == null) // to only animate on first location update
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentP, 20.0f));
+
+
+            currentMarker = googleMap.addMarker(new MarkerOptions().
+                    position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_blue)));
+        }
     }
+
 
     public void logLocation(View view) {
         numberOfLogs++;

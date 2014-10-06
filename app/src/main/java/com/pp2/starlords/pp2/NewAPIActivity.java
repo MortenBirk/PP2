@@ -64,6 +64,7 @@ public class NewAPIActivity extends Activity implements
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private void createLocationRequest() {
@@ -76,7 +77,16 @@ public class NewAPIActivity extends Activity implements
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        for(Position p : FileLogger.getGroundTruth()) {
+            LatLng currentP = new LatLng(p.getLattitude(), p.getLongitude());
 
+            googleMap.addMarker(new MarkerOptions().
+                    position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_blue)));
+        }
+    }
 
     /*
      * Called when the Activity becomes visible.
