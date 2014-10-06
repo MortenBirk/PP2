@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
 
 
 public class MainActivity extends Activity {
@@ -23,6 +24,20 @@ public class MainActivity extends Activity {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new MainViewFragment())
                     .commit();
+        }
+
+
+        List<Position> posOld = FileLogger.parseFile("readingsOldAPI.log", getApplicationContext());
+        List<Position> posNew = FileLogger.parseFile("readingsNewAPI.log", getApplicationContext());
+
+        System.out.println("---------------------------------------------- OLD ");
+        for (Position p : posOld) {
+            System.out.println(p.getLattitude() + ", " + p.getLongitude());
+        }
+
+        System.out.println("---------------------------------------------- NEW ");
+        for (Position p : posNew) {
+            System.out.println(p.getLattitude() + ", " + p.getLongitude());
         }
     }
 
