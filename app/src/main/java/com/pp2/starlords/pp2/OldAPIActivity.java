@@ -24,9 +24,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class OldAPIActivity extends Activity implements LocationListener {
 
     private LocationManager locationManager;
-    private static final long TIME_INTERVAL = 5000;
-    private static final float SPACE_INTERVAL = 0;
+    private static final long TIME_INTERVAL = 3000;
+    private static final float SPACE_INTERVAL = 1;
     private GoogleMap googleMap;
+    private String provider = LocationManager.GPS_PROVIDER;
+    private int numberOfLogs = 0;
 
     private Marker currentMarker;
 
@@ -53,21 +55,31 @@ public class OldAPIActivity extends Activity implements LocationListener {
         }
     }
 
+    public void logLocation(View view) {
+        numberOfLogs++;
+        Location location = locationManager.getLastKnownLocation(provider);
+        Toast.makeText(this, "logged" + numberOfLogs, Toast.LENGTH_SHORT).show();
+        FileLogger.write(
+                location.getLatitude() + "," +
+                        location.getLongitude(), "readingsOldAPI.log", getApplicationContext());
+    }
+
     public void chooseGps(View view) {
+        this.provider = LocationManager.GPS_PROVIDER;
         this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,TIME_INTERVAL, SPACE_INTERVAL, this);
     }
 
     public void chooseWifi(View view) {
+        this.provider = LocationManager.NETWORK_PROVIDER;
         this.locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,TIME_INTERVAL, SPACE_INTERVAL, this);
     }
 
-
     @Override
     public void onLocationChanged(Location location) {
-        String msg = "Updated Location: " +
+        /*String msg = "Updated Location: " +
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();*/
 
         LatLng currentP = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -78,9 +90,6 @@ public class OldAPIActivity extends Activity implements LocationListener {
         currentMarker = googleMap.addMarker(new MarkerOptions().
                 position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red)));
 
-        FileLogger.write(
-                location.getLatitude() + "," +
-                        location.getLongitude(), "readingsOldAPI.log", getApplicationContext());
     }
 
     @Override

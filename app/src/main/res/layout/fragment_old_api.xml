@@ -18,5 +18,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/btn_Wifi"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/log_button"
+        android:onClick="logLocation"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/old_log"
+        android:layout_below="@+id/btn_GPS"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
