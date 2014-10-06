@@ -73,26 +73,28 @@ public class FileLogger{
         return res;
     }
 
-    public static String getGroundTruth() {
-        return "56.17219114547839, 10.188129544258118\n" +
-                "56.17189250776975, 10.188006162643433\n" +
-                "56.171593867738345, 10.187898874282837\n" +
-                "56.17139676404523, 10.187796950340271\n" +
-                "56.17108916080561, 10.187652111053467\n" +
-                "56.17071286611291, 10.187469720840454\n" +
-                "56.17067702833077, 10.187743306159973\n" +
-                "56.17071585259325, 10.187855958938599\n" +
-                "56.17097866195288, 10.187968611717224\n" +
-                "56.17108916080561, 10.188016891479492\n" +
-                "56.17123549663467, 10.18807590007782\n" +
-                "56.17143857400407, 10.188161730766296\n" +
-                "56.17153413945333, 10.188140273094177\n" +
-                "56.17161178620574, 10.188247561454773\n" +
-                "56.171755133643785, 10.188606977462769\n" +
-                "56.17188354860259, 10.188692808151245\n" +
-                "56.17200599037265, 10.188757181167603\n" +
-                "56.1721224590111, 10.18882691860199\n" +
-                "56.172203090938446, 10.188236832618713\n";
+    public static List<Position> getGroundTruth() {
+        ArrayList<Position> valueToReturn = new ArrayList<Position>();
+        valueToReturn.add(new Position(56.17219114547839, 10.188129544258118));
+        valueToReturn.add(new Position(56.17189250776975, 10.188006162643433));
+        valueToReturn.add(new Position(56.171593867738345, 10.187898874282837));
+        valueToReturn.add(new Position(56.17139676404523, 10.187796950340271));
+        valueToReturn.add(new Position(56.17108916080561, 10.187652111053467));
+        valueToReturn.add(new Position(56.17071286611291, 10.187469720840454));
+        valueToReturn.add(new Position(56.17067702833077, 10.187743306159973));
+        valueToReturn.add(new Position(56.17071585259325, 10.187855958938599));
+        valueToReturn.add(new Position(56.17097866195288, 10.187968611717224));
+        valueToReturn.add(new Position(56.17108916080561, 10.188016891479492));
+        valueToReturn.add(new Position(56.17123549663467, 10.18807590007782));
+        valueToReturn.add(new Position(56.17143857400407, 10.188161730766296));
+        valueToReturn.add(new Position(56.17153413945333, 10.188140273094177));
+        valueToReturn.add(new Position(56.17161178620574, 10.188247561454773));
+        valueToReturn.add(new Position(56.171755133643785, 10.188606977462769));
+        valueToReturn.add(new Position(56.17188354860259, 10.188692808151245));
+        valueToReturn.add(new Position(56.17200599037265, 10.188757181167603));
+        valueToReturn.add(new Position(56.1721224590111, 10.18882691860199));
+        valueToReturn.add(new Position(56.172203090938446, 10.188236832618713));
+        return valueToReturn;
     }
 
 }
