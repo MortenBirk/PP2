@@ -28,9 +28,10 @@ public class NewAPIActivity extends Activity implements
         LocationListener {
 
     private LocationClient mLocationClient;
+    private int numberOfLogs = 0;
 
     // Update frequency in milliseconds
-    private static final long UPDATE_INTERVAL = 5000;
+    private static final long UPDATE_INTERVAL = 3000;
     // A fast frequency ceiling in milliseconds
     private static final long FASTEST_INTERVAL = 1000;
     // Define an object that holds accuracy and frequency parameters
@@ -121,9 +122,12 @@ public class NewAPIActivity extends Activity implements
     @Override
     public void onLocationChanged(Location location) {
         // Report to the UI that the location was updated
+        /*
         String msg = "Updated Location: " +
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        */
 
         LatLng currentP = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -134,15 +138,18 @@ public class NewAPIActivity extends Activity implements
         currentMarker = googleMap.addMarker(new MarkerOptions().
                 position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_red)));
 
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
 
+    }
+
+    public void logLocation(View view) {
+        numberOfLogs++;
+        Toast.makeText(this, "logged" + numberOfLogs, Toast.LENGTH_SHORT).show();
+        Location location = mLocationClient.getLastLocation();
 
         FileLogger.write(
                 Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude()), "readingsNewAPI.log", getApplicationContext());
-
-        FileLogger.parseFile("readingsNewAPI.log", getApplicationContext());
+                        Double.toString(location.getLongitude()), "readingsNewAPI.log", getApplicationContext());
     }
 
     public void useLowBattery(View view) {

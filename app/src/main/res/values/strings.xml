@@ -16,4 +16,5 @@
     <string name="btn_GPS">GPS location</string>
     <string name="btn_Wifi">Wifi location</string>
     <string name="cdf_button">Watch CDF</string>
+    <string name="log_button">LOG</string>
 </resources>
