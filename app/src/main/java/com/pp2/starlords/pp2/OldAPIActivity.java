@@ -62,7 +62,7 @@ public class OldAPIActivity extends Activity implements LocationListener {
 
 
             currentMarker = googleMap.addMarker(new MarkerOptions().
-                    position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_blue)));
+                    position(currentP).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_blue)).anchor(0.5f,0.5f));
         }
     }
 
